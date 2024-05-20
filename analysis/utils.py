@@ -97,7 +97,8 @@ def balance_df(df, random_state=0):
             more.append(index)
     if len(less) > len(more):
         less, more = more, less
-    multiple = math.ceil(len(more) / len(less))
-    random.seed(random_state)
-    less = random.sample(less * multiple, len(more))
+    # multiple = math.ceil(len(more) / len(less))
+    # random.seed(random_state)
+    # less = random.sample(less * multiple, len(more))
+    more = random.sample(more, len(less))
     return df.iloc[less + more, :]

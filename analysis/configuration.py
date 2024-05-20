@@ -23,7 +23,7 @@ VERIFY_EXCEL = {
 # True: 内部验证, False: 外部验证
 VERIFY_TYPE = True
 TRAIN_RATIO = 0.8
-THRESHOLD = 0.95
+THRESHOLD = 0.8
 MAX_COLUMN_NUMBER = 10
 PREDICT_TARGET = 'sepsis_ali'
 TARGET_COLUMNS = ['alp_max', 'hematocrit_min', 'min_heart_rate', 'min_mbp', 'urea_nitrogen_min', 'po2_max', 'avg_sbp', 'alp_min', 'platelet_count_min', 'glucose_min', 'max_sbp', 'platelet_count_max', 'glucose_max', 'pao2fio2ratio_max', 'pao2fio2ratio_min', 'avg_dbp', 'baseexcess_min', 'platelet_count_avg', 'creatine_kinase_isoenzyme_max', 'pao2fio2ratio_avg']

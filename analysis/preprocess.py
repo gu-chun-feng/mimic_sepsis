@@ -59,5 +59,6 @@ def split_train_verify_xlsx(df):
     write_excel(train_df, "train.xlsx", "train")
     verify_df = df[df['model'] == 0]
     verify_df = verify_df.drop('model', axis=1)
+    verify_df = balance_df(verify_df)
     write_excel(verify_df, "verify.xlsx", "verify")
     return train_df, verify_df

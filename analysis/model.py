@@ -1,13 +1,19 @@
+import os
+
 import numpy as np
 import torch
 import torch.nn as nn
 import xgboost as xgb
+from matplotlib import pyplot as plt
 from sklearn import svm
+from sklearn.metrics import confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-from analysis.configuration import TARGET_COLUMNS, PREDICT_TARGET
+from analysis.configuration import TARGET_COLUMNS, PREDICT_TARGET, OUTPUT_DIR
 from utils import read_excel, mprint, write_excel
+
+import seaborn as sns
 
 
 def dnn_model(x_train, x_predict, y_train, y_predict):
@@ -78,6 +84,16 @@ def train_and_predict():
                 verify_df["model_" + PREDICT_TARGET] = predict_result
                 verify_df["model_real_" + PREDICT_TARGET] = predict_result_real
                 write_excel(verify_df, model_name + "_verify.xlsx", "verify")
+
+                plt.figure(figsize=(8, 6))
+                cm = confusion_matrix(y_predict, predict_result)
+                sns.heatmap(cm, fmt='d', cmap='Blues', annot=True, cbar=False)
+                plt.title(model_name)
+                plt.xlabel('Predicted')
+                plt.ylabel('Truth')
+                plt.savefig(os.path.join(OUTPUT_DIR, PREDICT_TARGET + "_" + model_name) + '.png', dpi=300)
+                plt.show()
+
         mprint("%s %s Average: correct ratio %.4f%%." %
                (model_name, PREDICT_TARGET, sum(correct_list) / len(correct_list)))
         mprint("#############################################")
@@ -85,3 +101,12 @@ def train_and_predict():
     y_pred = dnn_model(x_train, x_predict, y_train, y_predict)
     verify_df["model_" + PREDICT_TARGET] = y_pred
     write_excel(verify_df, "dnn_model_verify.xlsx", "verify")
+
+    plt.figure(figsize=(8, 6))
+    cm = confusion_matrix(y_predict, y_pred)
+    sns.heatmap(cm, fmt='d', cmap='Blues', annot=True, cbar=False)
+    plt.title("dnn_model")
+    plt.xlabel('Predicted')
+    plt.ylabel('Truth')
+    plt.savefig(os.path.join(OUTPUT_DIR, PREDICT_TARGET + '_dnn_model') + '.png', dpi=300)
+    plt.show()
